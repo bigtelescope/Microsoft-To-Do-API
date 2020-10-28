@@ -1,8 +1,8 @@
-#Simple Library for Microsoft To-Do API
+# Simple Library for Microsoft To-Do API
 
 This little liblary contains tools for management Microsoft To Do tasks. It uses Microsoft REST API and Microsoft graph for these aims. Look through [this link](https://docs.microsoft.com/en-us/graph/api/resources/todo-overview?view=graph-rest-beta) to get more information. 
 
-###The library provides next methods :
+### The library provides next methods :
 
 - [GetListTaskLists](https://github.com/bigtelescope/Microsoft-To-Do-API/blob/e2a728f93d1e06092617d1c4f36ea7233072ac88/requests.go#L16) - To get **ListTaskLists** structure. It contains brief information about all lists of tasks.
 - [GetTaskListShort](https://github.com/bigtelescope/Microsoft-To-Do-API/blob/e2a728f93d1e06092617d1c4f36ea7233072ac88/requests.go#L40) - To get **todoTaskList** structure. It contains basic data about current list of tasks like Id etc.
