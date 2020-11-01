@@ -1,0 +1,13 @@
+{
+  "error": {
+    "code": "ErrorItemNotFound",
+    "message": "Item not found",
+    "innerError": {
+      "code": "ErrorItemNotFound",
+      "message": "The specified object was not found in the store.",
+      "date": "2020-11-01T11:17:50",
+      "request-id": "4a2f71da-724d-44da-b4a9-e051248ce540",
+      "client-request-id": "4a2f71da-724d-44da-b4a9-e051248ce540"
+    }
+  }
+}

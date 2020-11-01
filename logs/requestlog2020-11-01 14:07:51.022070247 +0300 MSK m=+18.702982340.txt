@@ -1,0 +1,13 @@
+{
+  "error": {
+    "code": "invalidRequest",
+    "message": "Invalid request",
+    "innerError": {
+      "code": "ErrorInvalidIdMalformed",
+      "message": "Id is malformed.",
+      "date": "2020-11-01T11:07:51",
+      "request-id": "aeb8b690-b2e1-4483-987b-9833b941f5f6",
+      "client-request-id": "aeb8b690-b2e1-4483-987b-9833b941f5f6"
+    }
+  }
+}
