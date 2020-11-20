@@ -1,11 +1,11 @@
 package request
 
-import(
-	"os"
-	"time"
+import (
 	"io/ioutil"
 	"net/http"
+	"os"
 	"path/filepath"
+	"time"
 )
 
 func SaveStatus(resp *http.Response) error {
@@ -15,27 +15,27 @@ func SaveStatus(resp *http.Response) error {
 	}
 
 	currentTime := time.Now()
-	fileName 	:= "requestlog" + currentTime.String() + ".txt"
+	fileName := "requestlog" + currentTime.String() + ".txt"
 
 	file, fileErr := os.Create(filepath.Join("logs", fileName))
 	if fileErr != nil {
 		return fileErr
 	}
 
-    _, writeErr := file.Write(bodyBytes[:len(bodyBytes)])
-    if writeErr != nil {
-    	closeErr := file.Close()
-    	if closeErr != nil {
-    		return closeErr
-    	}
+	_, writeErr := file.Write(bodyBytes[:len(bodyBytes)])
+	if writeErr != nil {
+		closeErr := file.Close()
+		if closeErr != nil {
+			return closeErr
+		}
 
-    	return writeErr
-    }
+		return writeErr
+	}
 
-    closeErr := file.Close()
-    if closeErr != nil {
-    	return closeErr
-    }
+	closeErr := file.Close()
+	if closeErr != nil {
+		return closeErr
+	}
 
-    return nil
+	return nil
 }

@@ -1,18 +1,18 @@
 package request
 
 import (
-	"fmt"
 	"bytes"
-	"errors"
-	"net/http"
 	"encoding/json"
+	"errors"
+	"fmt"
+	"net/http"
 )
 
 func GetListTaskLists(webClient *http.Client) (*ListTaskLists, error) {
 	req, requestErr := http.NewRequest(
-					http.MethodGet,
-					"https://graph.microsoft.com/beta/me/todo/lists",
-					nil)
+		http.MethodGet,
+		"https://graph.microsoft.com/beta/me/todo/lists",
+		nil)
 
 	if requestErr != nil {
 		return &ListTaskLists{}, requestErr
@@ -29,7 +29,7 @@ func GetListTaskLists(webClient *http.Client) (*ListTaskLists, error) {
 			return nil, saveStatusErr
 		}
 
-		return nil, errors.New("Wrong response while getting the ListTaskLists. Check the logs")
+		return nil, errors.New("wrong response while getting the ListTaskLists. check the logs")
 	}
 
 	defer response.Body.Close()
@@ -59,7 +59,7 @@ func GetTaskList(webClient *http.Client, name string) (*TaskList, error) {
 		}
 	}
 
-	if(currentNumber == -1) {
+	if currentNumber == -1 {
 		fmt.Println("No such list of tasks")
 		return nil, errors.New("The list doesn't exist")
 	} else {
@@ -69,9 +69,9 @@ func GetTaskList(webClient *http.Client, name string) (*TaskList, error) {
 
 func GetListTasks(webClient *http.Client, listId string) (*ListTasks, error) {
 	req, requestErr := http.NewRequest(
-				http.MethodGet,
-				"https://graph.microsoft.com/beta/me/todo/lists/" + listId + "/tasks",
-				nil)
+		http.MethodGet,
+		"https://graph.microsoft.com/beta/me/todo/lists/"+listId+"/tasks",
+		nil)
 
 	if requestErr != nil {
 		return nil, requestErr
@@ -105,7 +105,7 @@ func GetListTasks(webClient *http.Client, listId string) (*ListTasks, error) {
 func GetTask(webClient *http.Client, listId, taskId string) (*Task, error) {
 	req, requestErr := http.NewRequest(
 		"GET",
-		"https://graph.microsoft.com/beta/me/todo/lists/" + listId + "/tasks/" + taskId,
+		"https://graph.microsoft.com/beta/me/todo/lists/"+listId+"/tasks/"+taskId,
 		nil)
 
 	if requestErr != nil {
@@ -140,7 +140,7 @@ func GetTask(webClient *http.Client, listId, taskId string) (*Task, error) {
 func DeleteTaskList(webClient *http.Client, listId string) error {
 
 	requestUrl := "https://graph.microsoft.com/beta/me/todo/lists/" + listId
-	delReq, reqErr 	:= http.NewRequest("DELETE", requestUrl, nil)
+	delReq, reqErr := http.NewRequest("DELETE", requestUrl, nil)
 	if reqErr != nil {
 		return reqErr
 	}
@@ -150,7 +150,7 @@ func DeleteTaskList(webClient *http.Client, listId string) error {
 	if delErr != nil {
 		return errors.New("Can't delete the list of tasks")
 	}
-			
+
 	if response.Status != "204 No Content" {
 		saveStatusErr := SaveStatus(response)
 		if saveStatusErr != nil {
@@ -164,7 +164,7 @@ func DeleteTaskList(webClient *http.Client, listId string) error {
 }
 
 func CreateTaskList(webClient *http.Client, name string) error {
-	data := map[string]string{"displayName":name}
+	data := map[string]string{"displayName": name}
 
 	requestJson, mrshErr := json.Marshal(data)
 	if mrshErr != nil {
@@ -173,36 +173,36 @@ func CreateTaskList(webClient *http.Client, name string) error {
 
 	bodyReader := bytes.NewReader(requestJson)
 
-    req, postErr := http.NewRequest(http.MethodPost,
-                                 "https://graph.microsoft.com/beta/me/todo/lists",
-                                  bodyReader)
-    if postErr != nil {
-    	return postErr
-    }
+	req, postErr := http.NewRequest(http.MethodPost,
+		"https://graph.microsoft.com/beta/me/todo/lists",
+		bodyReader)
+	if postErr != nil {
+		return postErr
+	}
 
-    req.Header.Add("Content-Type", "application/json")
-    response, reqErr := webClient.Do(req)
+	req.Header.Add("Content-Type", "application/json")
+	response, reqErr := webClient.Do(req)
 
-    defer response.Body.Close()
+	defer response.Body.Close()
 
-    if reqErr != nil {
-    	return reqErr
-    }
+	if reqErr != nil {
+		return reqErr
+	}
 
-    if response.Status != "201 Created" {
+	if response.Status != "201 Created" {
 		saveStatusErr := SaveStatus(response)
 		if saveStatusErr != nil {
 			return saveStatusErr
 		}
 
 		return errors.New("Wrong response while creating a new TaskList. Check logs")
-    }
+	}
 
-    return nil
+	return nil
 }
 
 func CreateTask(webClient *http.Client, listId, taskName string) error {
-	taskData := map[string]string{"title":taskName}
+	taskData := map[string]string{"title": taskName}
 
 	requestJson, mrshErr := json.Marshal(taskData)
 	if mrshErr != nil {
@@ -211,30 +211,30 @@ func CreateTask(webClient *http.Client, listId, taskName string) error {
 
 	bodyReader := bytes.NewReader(requestJson)
 
-    req, postErr := http.NewRequest(
-    		http.MethodPost,
-            "https://graph.microsoft.com/beta/me/todo/lists/" + listId + "/tasks",
-            bodyReader)
+	req, postErr := http.NewRequest(
+		http.MethodPost,
+		"https://graph.microsoft.com/beta/me/todo/lists/"+listId+"/tasks",
+		bodyReader)
 
-    if postErr != nil {
-    	return postErr
-    }
+	if postErr != nil {
+		return postErr
+	}
 
-    req.Header.Add("Content-Type", "application/json")
-    response, reqErr := webClient.Do(req)
+	req.Header.Add("Content-Type", "application/json")
+	response, reqErr := webClient.Do(req)
 
-    defer response.Body.Close()
+	defer response.Body.Close()
 
-    if reqErr != nil {
-    	return reqErr
-    }
+	if reqErr != nil {
+		return reqErr
+	}
 
-    if response.Status != "201 Created" {
+	if response.Status != "201 Created" {
 		saveStatusErr := SaveStatus(response)
 		if saveStatusErr != nil {
 			return saveStatusErr
 		}
-    }
+	}
 
-    return nil
+	return nil
 }
